@@ -1,5 +1,7 @@
 [Youtube video](https://www.youtube.com/watch?v=Oe421EPjeBE)
 
+[Github link](https://github.com/john-smilga/node-express-course)
+
 **How to export/import modules**:
 - export
     ```js
@@ -45,3 +47,33 @@
     });
     customEmitter.emit('response'); // emit event 'response'
     ```
+
+**API, SSR**
+- mostly use express.js for api or server side rendering
+- api: setting up a http interface to interact with data
+    - data is send using json
+- SSR: set up template and send back entire javascript/css/html
+
+**Middleware**
+- req => middleware => res
+- reusable function that prevent dulicating code between routes
+- must pass to next middleware or terminate with 'res.send'
+- call in route
+    ```js
+    app.get('/', logger, (req, res) => {
+        //...
+    });
+    app.get('/', [logger, authorize], (req, res) => {
+        //...
+    });
+    ```
+- add middleware to every route
+    ```js
+    app.use(logger);
+    app.use([logger, authorize]); // add multiple middlewares
+    ```
+- add middleware to some path (work for any route after 'api': /api/product and /api/item)
+    ```js
+    app.use('api', logger);
+    ```
+    
