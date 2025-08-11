@@ -76,4 +76,16 @@
     ```js
     app.use('api', logger);
     ```
+
+**built-in middleware**
+- parse data:
+    ```js
+    // parse from data
+    app.use(express.urlencoded({ extended: false }));
+    //parse json
+    app.use(express.json());
+    ```
+
+**Postman**
+- test code without having to build a whole frontend
     
