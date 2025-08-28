@@ -2,3 +2,5 @@
 
 Task Manger:
 - learn how to presist data in database
+- learn how to set up different routes
+- REST API

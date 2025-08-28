@@ -1,0 +1,22 @@
+{
+  "name": "jwt-basics",
+  "version": "1.0.0",
+  "description": "[Link](https://www.youtube.com/watch?v=rltfdjcXjmk)\r [Source Code](https://github.com/john-smilga/node-express-course)\r Time: 5:10:00",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^4.21.2",
+    "express-async-errors": "^3.1.1",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
