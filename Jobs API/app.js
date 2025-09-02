@@ -4,6 +4,7 @@ const app = express();
 
 // connectDB
 const connectDB = require('./db/connect');
+const authMiddleware = require('./middleware/auth');
 
 // routers
 const authRouter = require('./routes/auth');
@@ -18,7 +19,7 @@ app.use(express.json());
 
 // routes
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/jobs', jobsRouter);
+app.use('/api/v1/jobs', authMiddleware, jobsRouter); // protects every route
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

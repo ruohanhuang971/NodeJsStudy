@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs'); // used for hashing (encrypting) the password before storing it
+const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -16,9 +18,29 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'password must be provided'],
-        minlength: 6,
-        maxlength: 12
+        minlength: 6
     }
 });
+
+// hash the password with mongoose middleware
+// uses function keyword so 'this' always points to this object
+UserSchema.pre('save', async function () { // called before saving the data
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt); // once password is hashed can't go back
+});
+
+// uses mongoose middleware so every document can have function on them
+// uses function keyword so 'this' always points to this object
+UserSchema.methods.createJWT = function () {
+    return jwt.sign({ userId: this.id, name: this.name }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_LIFETIME
+    });
+};
+
+// another instance function
+UserSchema.methods.comparePassword = async function (enteredPassword) {
+    const isMatch = await bcrypt.compare(enteredPassword, this.password);
+    return isMatch;
+}
 
 module.exports = mongoose.model('User', UserSchema);
