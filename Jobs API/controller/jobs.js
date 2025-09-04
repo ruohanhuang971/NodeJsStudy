@@ -14,8 +14,18 @@ const getAllJobs = async (req, res, next) => {
     }
 }
 
-const getJob = async (req, res) => {
-    res.send('get sinlge job');
+const getJob = async (req, res, next) => {
+    try {
+        const { user: { userId }, params: { id: jobId } } = req;
+        const job = await Job.findOne({ _id: jobId, createdBy: userId });
+
+        if (!job) {
+            throw new NotFoundError(`No job with id ${jobId}`);
+        }
+        res.status(StatusCodes.OK).json({ job });
+    } catch (error) {
+        next(error);
+    }
 }
 
 const createJob = async (req, res, next) => {
@@ -28,12 +38,40 @@ const createJob = async (req, res, next) => {
     }
 }
 
-const updateJob = async (req, res) => {
-    res.send('update job');
+const updateJob = async (req, res, next) => {
+    try {
+        const { body: { company, position }, user: { userId }, params: { id: jobId } } = req;
+
+        if (company === '' || position === '') {
+            throw new BadRequestError(`Please provide company and position`);
+        }
+
+        const job = await Job.findOneAndUpdate({ _id: jobId, createdBy: userId }, req.body, {
+            new: true,
+            runValidators: true
+        });
+
+        if (!job) {
+            throw new NotFoundError(`No job with id ${jobId}`);
+        }
+        res.status(StatusCodes.OK).json({ job });
+    } catch (error) {
+        next(error);
+    }
 }
 
-const deleteJob = async (req, res) => {
-    res.send('delete job');
+const deleteJob = async (req, res, next) => {
+    try {
+        const { user: { userId }, params: { id: jobId } } = req;
+        const job = await Job.findOneAndDelete({ _id: jobId, createdBy: userId });
+
+        if (!job) {
+            throw new NotFoundError(`No job with id ${jobId}`);
+        }
+        res.status(StatusCodes.OK).send();
+    } catch (error) {
+        next(error);
+    }
 }
 
 module.exports = { getAllJobs, getJob, createJob, updateJob, deleteJob };
