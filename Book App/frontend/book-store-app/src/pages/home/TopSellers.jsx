@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import BookCard from '../books/BookCard';
 
 const categories = ["Choose a genre", "Business", "Fiction", "Horror", "Adventure"];
 
@@ -37,7 +38,7 @@ const TopSellers = () => {
             {/* display filtered books*/}
             {
                 filteredBooks.map((book, index) => {
-                    return <div>{book.title}</div>
+                    return <BookCard key={index} book={book} />
                 })
             }
         </div>
