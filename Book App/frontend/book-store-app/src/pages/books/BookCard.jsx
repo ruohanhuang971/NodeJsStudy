@@ -1,6 +1,6 @@
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { Link } from 'react-router'
-import fillerImg from "../../assets/books-1.jpg"
+import getImgUrl from "../../utils/getImgUrl";
 
 const BookCard = ({ book }) => {
     return (
@@ -9,7 +9,7 @@ const BookCard = ({ book }) => {
                 <div className="sm:h-72 sm:flex-shrink-0 border rounded-md">
                     <Link to={`/books/${book._id}`} >
                         <img
-                            src=""
+                            src={`${getImgUrl(book.coverImage)}`}
                             alt=""
                             className="w-full bg-cover p-2 rounded-md cursor-pointer hover:scale-0.5 transition-all duration-200"
                         />
