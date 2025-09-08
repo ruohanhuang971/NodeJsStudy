@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
+
+import { useSelector } from 'react-redux'
+
 import { GoHome } from "react-icons/go";
 import { IoSearch } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
@@ -18,11 +21,14 @@ const Navbar = () => {
 
     const [isDropDownOpen, setDropDownOpen] = useState(false); // state default is false
 
+    // get shopping cart info with redux
+    const cartItems = useSelector(state => state.cart.cartItems);
+
     const currentUser = false;
 
     return (
         <header className='max-w-screen-2xl mx-auto px-2 py-6'>  {/* border of the navbar*/}
-            {/* // evenly spaced items take up whole container and centered verticly */}
+            {/* // evenly spaced items take up whole container and centered vertically */}
             <nav className='flex justify-between items-center'> {/* actual navbar contents */}
                 {/* left side: logo + search bar*/}
                 <div className='flex items-center md:gap-16 gap-4'>
@@ -33,7 +39,7 @@ const Navbar = () => {
                     {/* search input */}
                     {/*position relative to container, responsive width, and horizontal spacing between children*/}
                     <div className='relative sm:w-72 w-40 space-x-2'>
-                        {/* absolute postion to acestor, can inline with text */}
+                        {/* absolute position to ancestor, can inline with text */}
                         <IoSearch className='absolute inline-block left-2 inset-y-2' /> {/* search icon */}
                         <input type='text' placeholder='Search for your next read' className='bg-gray-200 w-full py-1 md:px-8 px-6 rounded-md focus:outline-blue-100' />
                     </div>
@@ -75,7 +81,7 @@ const Navbar = () => {
 
                     <Link to='/cart' className='bg-primary p-1 sm:px-4 px-2 py-1 flex items-center rounded-sm'> {/* 'rounded-sm': applies small border-radius, round corners*/}
                         <LiaShoppingCartSolid className='size-7' />
-                        <span className='text-sm font-semibold sm:ml-1'>0</span> {/* span wrap inline element */}
+                        <span className='text-sm font-semibold sm:ml-1'>{cartItems.length}</span> {/* span wrap inline element */}
                     </Link>
                 </div>
             </nav>
