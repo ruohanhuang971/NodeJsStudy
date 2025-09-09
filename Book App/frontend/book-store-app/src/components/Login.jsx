@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 
 const Login = () => {
     const [message, setMessage] = useState("")
+
+    // uses react hook form to handle form
     const {
         register,
         handleSubmit,
