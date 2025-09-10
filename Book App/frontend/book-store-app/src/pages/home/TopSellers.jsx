@@ -9,21 +9,17 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
+import { useFetchAllBooksQuery } from '../../redux/features/books/bookAPI';
 
 const categories = ["Choose a genre", "Business", "Fiction", "Horror", "Adventure"];
 
 const TopSellers = () => {
-    const [books, setBooks] = useState([]);
     const [selected, setSelected] = useState("Choose a genre");
 
-    // useEffect(..., []): runs once on component load	
-    // fetch("books.json"): Loads data from books.json	
-    // .then(res => res.json()): once receive, convert to json
-    useEffect(() => {
-        fetch("books.json").then(res => res.json()).then((data) => setBooks(data));
-    }, []);
+    const { data } = useFetchAllBooksQuery();
+    const { books = [], count = 0 } = data || {};
 
-    const filteredBooks = selected === "Choose a genre" ? books : books.filter((book) => book.category === selected.toLowerCase());
+    const filteredBooks = selected === "Choose a genre" ? books : books.filter((book) => book.category.toLowerCase() === selected.toLowerCase());
 
     return (
         <div className='py-10'>
@@ -57,10 +53,6 @@ const TopSellers = () => {
                     1024: {
                         slidesPerView: 2,
                         spaceBetween: 50,
-                    },
-                    1180: {
-                        slidesPerView: 3,
-                        spaceBetween: 50,
                     }
                 }}
                 modules={[Navigation]}
@@ -69,7 +61,7 @@ const TopSellers = () => {
                 {/* display filtered books*/}
                 {
                     filteredBooks.length > 0 && filteredBooks.map((book, index) => {
-                        return <SwiperSlide><BookCard key={index} book={book} /></SwiperSlide>
+                        return <SwiperSlide key={index}><BookCard book={book} /></SwiperSlide>
                     })
                 }
             </Swiper>
