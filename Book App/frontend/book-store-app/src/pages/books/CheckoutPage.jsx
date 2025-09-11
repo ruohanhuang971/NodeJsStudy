@@ -2,14 +2,15 @@ import { Link } from 'react-router'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
-import getImgUrl from '../../utils/getImgUrl'
+import { getImgUrl } from '../../utils/getImgUrl'
 import { removeFromCart, clearCart } from '../../redux/features/cart/cartSlice'
+import { useAuth } from '../../context/AuthContext';
 
 const CheckoutPage = () => {
     const cartItems = useSelector(state => state.cart.cartItems);
     const totalPrice = cartItems.reduce((acc, item) => acc + item.newPrice, 0).toFixed(2);
 
-    const currentUser = true;
+    const { currentUser } = useAuth();
 
     const [isChecked, setIsChecked] = useState(false)
 

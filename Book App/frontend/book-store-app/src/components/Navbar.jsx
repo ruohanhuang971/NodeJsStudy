@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 
 import { useSelector } from 'react-redux'
+import { useAuth } from "../context/AuthContext"
 
 import { GoHome } from "react-icons/go";
 import { IoSearch } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
-import { FiUserCheck } from "react-icons/fi";
+import { HiUserCircle } from "react-icons/hi2";
 import { FaRegHeart } from "react-icons/fa6";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 
@@ -24,7 +25,10 @@ const Navbar = () => {
     // get shopping cart info with redux
     const cartItems = useSelector(state => state.cart.cartItems);
 
-    const currentUser = false;
+    const { currentUser, logoutUser } = useAuth();
+    const handleLogOut = () => {
+        logoutUser();
+    }
 
     return (
         <header className='max-w-screen-2xl mx-auto px-2 py-6'>  {/* border of the navbar*/}
@@ -52,7 +56,7 @@ const Navbar = () => {
                             currentUser ? <>
                                 {/* onclick, call setDropDownOpen and toggle isDropDownOpen*/}
                                 <button onClick={() => setDropDownOpen(!isDropDownOpen)}>
-                                    <FiUserCheck className='relative translate-y-0.5 size-6' />
+                                    <HiUserCircle className='relative translate-y-1 size-8' />
                                 </button>
                                 {/* show dropdowns */}
                                 {
@@ -67,6 +71,13 @@ const Navbar = () => {
                                                         </Link>
                                                     </li>
                                                 ))}
+                                                <li>
+                                                    <button
+                                                        onClick={handleLogOut}
+                                                        className='block w-full text-left px-4 py-2 text-sm hover:bg-gray-100'>
+                                                        Logout
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </div>
                                     )

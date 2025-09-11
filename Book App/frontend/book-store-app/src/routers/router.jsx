@@ -1,10 +1,14 @@
 import { createBrowserRouter } from "react-router";
-import Home from "../pages/home/Home"
+
 import App from "../App"
+import PrivateRoute from "./privateRoute";
+
 import Login from "../components/Login";
 import Register from "../components/Register";
+import Home from "../pages/home/Home"
 import CartPage from "../pages/books/CartPage"
 import CheckoutPage from "../pages/books/CheckoutPage";
+import SingleBook from "../pages/books/SingleBook";
 
 const router = createBrowserRouter([
     {
@@ -37,7 +41,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/checkout",
-                element: <CheckoutPage />
+                element: <PrivateRoute><CheckoutPage /></PrivateRoute>
+            },
+            {
+                path: "/books/:id",
+                element: <SingleBook />
             },
         ]
     },

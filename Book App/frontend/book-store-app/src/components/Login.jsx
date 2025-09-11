@@ -1,10 +1,13 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthContext"
 
 const Login = () => {
     const [message, setMessage] = useState("")
+    const { loginUser, signInWithGoogle } = useAuth();
+    const navigate = useNavigate();
 
     // uses react hook form to handle form
     const {
@@ -14,11 +17,27 @@ const Login = () => {
         formState: { errors },
     } = useForm()
 
-    const handleGoogleSignIn = () => {
-
+    const onSubmit = async (data) => {
+        try {
+            // calls registerUser from AuthContext
+            await loginUser(data.email, data.password);
+            alert("User login successful")
+            navigate("/"); // redirect to homepage if login successful
+        } catch (error) {
+            setMessage("Please prove a valid email and password")
+            console.log(error)
+        }
     }
 
-    const onSubmit = (data) => console.log(data)
+    const handleGoogleSignIn = async () => {
+        try {
+            await signInWithGoogle();
+            navigate("/");
+        } catch (error) {
+            setMessage("Google Sign-in failed")
+            console.log(error)
+        }
+    }
 
     return (
         // h-[calc(100vh-120px)]: make height 100% of the viewport height - 120px

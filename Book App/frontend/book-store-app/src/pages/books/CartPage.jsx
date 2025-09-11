@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
-import getImgUrl from '../../utils/getImgUrl'
+import { getImgUrl } from '../../utils/getImgUrl'
 import { removeFromCart, clearCart } from '../../redux/features/cart/cartSlice'
 
 const CartPage = () => {

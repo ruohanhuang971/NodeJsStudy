@@ -1,7 +1,7 @@
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { Link } from 'react-router'
 
-import getImgUrl from "../../utils/getImgUrl";
+import { getImgUrl } from '../../utils/getImgUrl'
 
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/features/cart/cartSlice";
