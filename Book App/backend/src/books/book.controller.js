@@ -1,6 +1,6 @@
 import Book from "./book.model.js";
 import { StatusCodes } from 'http-status-codes';
-import { NotFoundError, BadRequestError } from '../errors/index.js'
+import { NotFoundError } from '../errors/index.js'
 
 export const getAllBooks = async (req, res, next) => {
     try {

@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }) => {
     // hold context values
     const value = {
         currentUser,
+        loading,
         registerUser,
         loginUser,
         signInWithGoogle,

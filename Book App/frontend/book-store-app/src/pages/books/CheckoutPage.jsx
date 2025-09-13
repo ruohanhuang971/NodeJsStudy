@@ -1,10 +1,12 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
 import { getImgUrl } from '../../utils/getImgUrl'
 import { removeFromCart, clearCart } from '../../redux/features/cart/cartSlice'
 import { useAuth } from '../../context/AuthContext';
+import { useCreateOrderMutation } from '../../redux/features/orders/ordersApi';
+import Swal from 'sweetalert2';
 
 const CheckoutPage = () => {
     const cartItems = useSelector(state => state.cart.cartItems);
@@ -13,6 +15,8 @@ const CheckoutPage = () => {
     const { currentUser } = useAuth();
 
     const [isChecked, setIsChecked] = useState(false)
+    const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -21,8 +25,7 @@ const CheckoutPage = () => {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
         const newOrder = {
             name: data.name,
             email: currentUser?.email,
@@ -36,10 +39,32 @@ const CheckoutPage = () => {
             productIds: cartItems.map((item) => item._id),
             totalPrice: totalPrice,
         }
-        console.log(newOrder)
+
+        // create new order with order api
+        try {
+            await createOrder(newOrder).unwrap();
+            // custom alert
+            Swal.fire({
+                title: "Order confirmed",
+                text: "Your order have been placed!",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Exit"
+            });
+            navigate('/orders');
+        } catch (error) {
+            // custom alert
+            Swal.fire({
+                title: "Error placing an order",
+                text: 'Something went wrong. Please double check your information',
+                icon: "error",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Exit"
+            });
+        }
     }
 
-
+    if (isLoading) return <div>Loading...</div>
     return (
         <section>
             <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">

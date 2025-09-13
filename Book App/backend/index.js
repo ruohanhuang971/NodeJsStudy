@@ -19,7 +19,9 @@ app.use(cors({
 
 // set up routes
 import bookRoutes from './src/books/book.route.js';
+import orderRoutes from './src/orders/order.route.js';
 app.use("/api/v1/books", bookRoutes);
+app.use("/api/v1/orders", orderRoutes);
 
 // error handler
 import errorHandlerMiddleware from './src/middleware/error-handler.js';
