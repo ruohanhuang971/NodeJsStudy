@@ -39,9 +39,6 @@ export const updateBook = async (req, res, next) => {
     try {
         const bookId = req.params.id;
 
-        console.log('req.body', req.body);
-        console.log('bookId', bookId);
-
         const book = await Book.findOneAndUpdate({ _id: bookId }, req.body, {
             new: true,
             runValidators: true
