@@ -20,8 +20,12 @@ app.use(cors({
 // set up routes
 import bookRoutes from './src/books/book.route.js';
 import orderRoutes from './src/orders/order.route.js';
+import userRoutes from './src/users/user.route.js';
+import adminRoute from './src/stats/admin.stats.js';
 app.use("/api/v1/books", bookRoutes);
 app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/admin", adminRoute)
 
 // error handler
 import errorHandlerMiddleware from './src/middleware/error-handler.js';

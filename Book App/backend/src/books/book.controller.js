@@ -4,7 +4,7 @@ import { NotFoundError } from '../errors/index.js'
 
 export const getAllBooks = async (req, res, next) => {
     try {
-        const books = await Book.find().sort('title');
+        const books = await Book.find().sort({ createdAt: -1 });
         res.status(StatusCodes.OK).json({ books, count: books.length });
     } catch (error) {
         next(error);
@@ -38,6 +38,10 @@ export const createBook = async (req, res, next) => {
 export const updateBook = async (req, res, next) => {
     try {
         const bookId = req.params.id;
+
+        console.log('req.body', req.body);
+        console.log('bookId', bookId);
+
         const book = await Book.findOneAndUpdate({ _id: bookId }, req.body, {
             new: true,
             runValidators: true
